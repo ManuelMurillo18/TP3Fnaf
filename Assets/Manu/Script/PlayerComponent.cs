@@ -17,6 +17,7 @@ public class PlayerComponent : MonoBehaviour
 
     void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         characterController = GetComponent<CharacterController>();
         cameraFps = GetComponentInChildren<Camera>();
     }
@@ -67,12 +68,17 @@ public class PlayerComponent : MonoBehaviour
     }
 
     public void CamRotation()
-    { 
+    {
+    
         rotationCamera += new Vector3(-rotate.y, rotate.x, 0);
         rotationCamera.x = Mathf.Clamp(rotationCamera.x, -70f, 70f);
-        cameraFps.transform.rotation = Quaternion.Euler(rotationCamera.x, rotationCamera.y, 0);
-        transform.rotation = Quaternion.Euler(0, rotationCamera.y, 0);
 
+       
+        cameraFps.transform.localRotation = Quaternion.Euler(rotationCamera.x, 0, 0);
+
+        
+        transform.rotation = Quaternion.Euler(0, rotationCamera.y /10, 0);
     }
-  
+
+
 }

@@ -8,32 +8,42 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
     [SerializeField] int health = 100;
     CharacterController characterController;
+    Camera cameraFps;
     Vector2 move;
+    Vector2 rotate;
     Vector3 velocity;
+    Vector3 rotationCamera = new Vector3(0, 0, 0);
     private float gravity = -9.81f;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        cameraFps = GetComponentInChildren<Camera>();
     }
 
-    
+
     void Update()
     {
-      Mouvement();
+        Mouvement();
+        CamRotation();
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-       move = context.ReadValue<Vector2>();
+        move = context.ReadValue<Vector2>();
     }
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed && characterController.isGrounded)
         {
             Debug.Log("Jump");
-            velocity.y =  jumpForce;
+            velocity.y = jumpForce;
         }
+    }
+
+    public void Rotate(InputAction.CallbackContext context)
+    {
+        rotate = context.ReadValue<Vector2>();
     }
 
     public void Mouvement()
@@ -56,5 +66,13 @@ public class PlayerComponent : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
+    public void CamRotation()
+    { 
+        rotationCamera += new Vector3(-rotate.y, rotate.x, 0);
+        rotationCamera.x = Mathf.Clamp(rotationCamera.x, -70f, 70f);
+        cameraFps.transform.rotation = Quaternion.Euler(rotationCamera.x, rotationCamera.y, 0);
+        transform.rotation = Quaternion.Euler(0, rotationCamera.y, 0);
+
+    }
   
 }

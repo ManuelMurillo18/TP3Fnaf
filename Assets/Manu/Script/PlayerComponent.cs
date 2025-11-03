@@ -37,8 +37,7 @@ public class PlayerComponent : MonoBehaviour
     {
         if (context.performed && characterController.isGrounded)
         {
-            Debug.Log("Jump");
-            velocity.y = jumpForce;
+            velocity.y = jumpForce; //Vitesse de saut
         }
     }
 
@@ -58,10 +57,10 @@ public class PlayerComponent : MonoBehaviour
         if (characterController.isGrounded && velocity.y < 0)
         {
             
-            velocity.y = -1f; // small negative value to keep the player grounded
+            velocity.y = -1f; // Garde le joueur collé au sol
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime; //Gravité tire vers le bas
 
         
         characterController.Move(velocity * Time.deltaTime);

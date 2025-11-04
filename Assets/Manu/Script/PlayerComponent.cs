@@ -7,6 +7,7 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] int health = 100;
+
     CharacterController characterController;
     Camera cameraFps;
     Vector2 move;
@@ -74,8 +75,8 @@ public class PlayerComponent : MonoBehaviour
 
        
         cameraFps.transform.localRotation = Quaternion.Euler(rotationCamera.x, 0, 0);
+      
 
-        
         transform.rotation = Quaternion.Euler(0, rotationCamera.y /10, 0);
     }
 

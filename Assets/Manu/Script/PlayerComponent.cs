@@ -1,4 +1,6 @@
 using System.Collections;
+using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -7,13 +9,23 @@ using UnityEngine.UI;
 public class PlayerComponent : MonoBehaviour
 {
     [SerializeField] float speed = 5f;
+    [SerializeField] float cameraSpeed = 2f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] int health = 100;
+
+    //***************** UI *****************//
     [SerializeField] Sprite[] batterieLevels;
     [SerializeField] Image batterieImage;
+    [SerializeField] TMP_Text promptText;
+
+    //***************** Camera - Interaction Ray *****************//
+    CinemachineCamera cameraFps;
+    [SerializeField] float interactionRayDistance = 3f;
+    [SerializeField] LayerMask interactableMask;
+
+    //*****************  *****************//
     Light LightComponent;
     CharacterController characterController;
-    Camera cameraFps;
     Vector2 move;
     Vector2 rotate;
     Vector3 velocity;
@@ -21,13 +33,14 @@ public class PlayerComponent : MonoBehaviour
     private float gravity = -9.81f;
     private bool isFlashlightOn = false;
     private float flashlightBattery = 100f;
+    [SerializeField] float flashlightDrainRate = 1f;
     private bool noBatterieBlinking = false;
 
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         characterController = GetComponent<CharacterController>();
-        cameraFps = GetComponentInChildren<Camera>();
+        cameraFps = GetComponentInChildren<CinemachineCamera>();
         LightComponent = GetComponentInChildren<Light>();
     }
 
@@ -38,6 +51,7 @@ public class PlayerComponent : MonoBehaviour
         UseFlashLightBatterie();
         Mouvement();
         CamRotation();
+        Ray();
         LightComponent.enabled = isFlashlightOn;
     }
 
@@ -54,10 +68,23 @@ public class PlayerComponent : MonoBehaviour
             velocity.y = jumpForce; //Vitesse de saut
         }
     }
-
     public void Rotate(InputAction.CallbackContext context)
     {
         rotate = context.ReadValue<Vector2>();
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Ray ray = new Ray(cameraFps.transform.position, cameraFps.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, interactionRayDistance, interactableMask))
+            {
+                var interactable = hit.collider.GetComponent<Interactable>();
+                if (interactable != null)
+                    interactable.BaseInteract();
+            }
+        }
     }
 
     public void Mouvement()
@@ -81,7 +108,7 @@ public class PlayerComponent : MonoBehaviour
 
     public void CamRotation()
     {
-        rotationCamera += new Vector3(-rotate.y, rotate.x, 0);
+        rotationCamera += new Vector3(-rotate.y * Time.deltaTime * cameraSpeed, rotate.x * Time.deltaTime * cameraSpeed, 0);
         rotationCamera.x = Mathf.Clamp(rotationCamera.x, -70f, 70f);
 
 
@@ -89,6 +116,23 @@ public class PlayerComponent : MonoBehaviour
 
 
         transform.rotation = Quaternion.Euler(0, rotationCamera.y, 0);
+    }
+
+    private void Ray()
+    {
+        promptText.text = "";
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        Debug.DrawRay(ray.origin, ray.direction * interactionRayDistance, Color.red);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionRayDistance, interactableMask))
+        {
+            var interactable = hitInfo.collider.GetComponent<Interactable>();
+            if (interactable != null)
+            {
+                promptText.text = interactable.GetPromptMessage();
+            }
+
+        }
     }
 
     public void ActivateFlashLight(InputAction.CallbackContext context)
@@ -138,7 +182,7 @@ public class PlayerComponent : MonoBehaviour
     {
         if (isFlashlightOn && flashlightBattery > 0f)
         {
-            flashlightBattery -= 5f * Time.deltaTime;
+            flashlightBattery -= flashlightDrainRate * Time.deltaTime;
 
         }
 

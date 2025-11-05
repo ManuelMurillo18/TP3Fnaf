@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4040089553512817039}
   - component: {fileID: 1682900807076929222}
   - component: {fileID: 3200542129986595207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 2953352505027934055}
   - component: {fileID: 177673879098450577}
   - component: {fileID: 7702020813173299499}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GoldenFreddy
   m_TagString: Plush
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 1034690521927495725}
   - component: {fileID: 967297617489229499}
   - component: {fileID: 3684095068655596643}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GoldenFreddyPlush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1589660620304480871}
   - component: {fileID: 5888285725823570053}
   - component: {fileID: 7317648221352702813}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

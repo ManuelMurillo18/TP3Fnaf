@@ -28,19 +28,5 @@ public abstract class Interactable : MonoBehaviour
     }
 
     //A mettre dans player
-    //private void Ray()
-    //{
-    //    promptText.text = "";
-    //    ray = new Ray(cameraFPS.transform.position, cameraFPS.transform.forward);
-    //    Debug.DrawRay(ray.origin, ray.direction * interactionRayDistance, Color.red);
 
-    //    if (Physics.Raycast(ray, out RaycastHit hitInfo, interactionRayDistance, interactableMask))
-    //    {
-    //        var interactable = hitInfo.collider.GetComponent<Interactable>();
-    //        if (interactable != null)
-    //        {
-    //            promptText.text = interactable.GetPromptMessage(gameObject);
-    //        }
-    //    }
-    //}
 }

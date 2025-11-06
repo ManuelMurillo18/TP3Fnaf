@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 public abstract class Node
 {
@@ -23,13 +24,14 @@ public abstract class Node
             return true;
         foreach (Condition condition in conditions)
         {
-            if(!condition.Evalutate())
+            if(!condition.Evaluate())
                 return false;
         }
         return true;
     }
     virtual public void EvaluateAction()
     {
+        
         if (!EvalutateConditions())
         {
             FinishAction(true);
@@ -41,12 +43,10 @@ public abstract class Node
     virtual public void Tick(float deltaTIme) { }
     virtual public void FinishAction(bool result)
     {
-        if(parent != null)
+        if (parent != null)
             parent.FinishAction(result);
         else
-        {
             BT.EvaluateTree();
-        }
     }
     virtual public void Interupt()
     {

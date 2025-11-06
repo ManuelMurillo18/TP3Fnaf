@@ -6,6 +6,8 @@ abstract public class BehaviorTree : MonoBehaviour
     protected Node root;
     public Node activeNode;
 
+    private bool treeFinished = false;
+
     abstract protected void InitializeTree();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,9 +21,22 @@ abstract public class BehaviorTree : MonoBehaviour
     void Update()
     {
         if (activeNode != null)
+        {
+            Debug.Log("Ticking: " + activeNode.GetType().ToString());
             activeNode.Tick(Time.deltaTime);
-    }
+        }
+        else if(treeFinished)
+        {
+            treeFinished = false;
+            EvaluateTree();
+        }
 
+    }
+    //public void OnTreeFinished()
+    //{
+    //    treeFinished = true;
+    //    activeNode = null;
+    //}
     public void EvaluateTree()
     {
         root.EvaluateAction();    
@@ -30,5 +45,8 @@ abstract public class BehaviorTree : MonoBehaviour
     {
         activeNode.Interupt();
         EvaluateTree();
+        //if (activeNode != null)
+        //    activeNode.Interupt();
+        //OnTreeFinished();
     }
 }

@@ -16,7 +16,7 @@ public class Patrol : BehaviorTree
 
 
         //************************************* Interrupt *************************************//
-        //interrupt = new Interrupt(this, seesPlayer);
+        interrupt = new Interrupt(this, seesPlayer, 3f);
 
 
         //************************************* Nodes *************************************//
@@ -27,27 +27,26 @@ public class Patrol : BehaviorTree
         Wait wait2 = new Wait(2, null, this);
         Wait wait4 = new Wait(4, null, this);
 
-        FollowPlayer followPlayer = new FollowPlayer(player, player.transform, agent, 2, null, this);
+        FollowPlayer followPlayer = new FollowPlayer(player, player.transform, agent, 2, 5, 4, null, this);
 
 
         //*************************************** Sequences *************************************//
         Sequence patrolSequence = new Sequence(new Node[] { goTo1, wait2, goTo2, wait2, goTo3, wait2, goTo4, wait2 }, doesntSeePlayer, this);
-        Sequence waitSequence = new Sequence(new Node[] { wait4 }, null, this);
+        //Sequence chaseSequence = new Sequence(new Node[] { followPlayer }, null, this);
         //Sequence followPlayerSequence = new Sequence(new Node[] { followPlayer, wait4 }, seesPlayer, this);
 
-
         //*************************************** Root Node *************************************//
-        root = new Sequence(new Sequence[] { patrolSequence, waitSequence }, null, this);
+        root = new Selector(new Node[] {patrolSequence, followPlayer },null,this );
     }
 
-    //private void OnDisable()
-    //{
-    //    interrupt.Stop();
-    //}
+    private void OnDisable()
+    {
+        interrupt.Stop();
+    }
 
-    //private void OnEnable()
-    //{
-    //    if (interrupt != null)
-    //        interrupt.Start();
-    //}
+    private void OnEnable()
+    {
+        if (interrupt != null)
+            interrupt.Start();
+    }
 }

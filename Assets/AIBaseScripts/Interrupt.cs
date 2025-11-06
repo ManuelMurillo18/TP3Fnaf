@@ -1,52 +1,60 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class Interrupt
 {
     Condition[] conditions;
-    BehaviorTree tree;
+    BehaviorTree behaviorTree;
     bool[] conditionsState;
 
     CancellationTokenSource cts;
 
-    public Interrupt(BehaviorTree tree, Condition[] conditions)
+
+    float cooldown;  // délai minimum entre deux interruptions
+    float lastInterruptTime = -10f;
+    public Interrupt(BehaviorTree behaviorTree, Condition[] conditions, float cooldown = 2f)
     {
+        this.behaviorTree = behaviorTree;
         this.conditions = conditions;
-        this.tree = tree;
+        this.cooldown = cooldown;
         conditionsState = new bool[conditions.Length];
-        
+
         Start();
     }
 
-    async void CheckConditions(CancellationToken token) // marche comme un Update
+    async private void CheckConditions(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
-            for (int i = 0; i < conditions.Length; i++)
+            for (int index = 0; index < conditions.Length; ++index)
             {
-                if (conditions[i].Evalutate() != conditionsState[i])
+                if (conditions[index].Evaluate() != conditionsState[index])
                 {
-                    tree.Interupt();
+                    // Empêche l’interruption trop fréquente
+                    if (Time.time - lastInterruptTime >= cooldown)
+                    {
+                        lastInterruptTime = Time.time;
+                        behaviorTree.Interupt();
+                    }
+
+                    //Debug.Log("Interrupting Behavior Tree due to condition change.");
+                    //behaviorTree.Interupt();
                     UpdateState();
-                    return;
+                    break;
                 }
             }
-
             await Task.Delay(100);
         }
-
     }
 
-    void UpdateState()
+    private void UpdateState()
     {
-        for (int i = 0; i < conditions.Length; i++)
+        for (int index = 0; index < conditions.Length; ++index)
         {
-            bool currentState = conditions[i].Evalutate();
-            if (currentState != conditionsState[i])
-            {
-                conditionsState[i] = currentState;
-            }
+            conditionsState[index] = conditions[index].Evaluate();
         }
     }
 

@@ -30,7 +30,7 @@ public class PlayerComponent : MonoBehaviour
     Vector2 rotate;
     Vector3 velocity;
     Vector3 rotationCamera = new Vector3(0, 0, 0);
-    private float gravity = -9.81f;
+    [SerializeField] float gravity = -9.81f;
     private bool isFlashlightOn = false;
     private float flashlightBattery = 100f;
     [SerializeField] float flashlightDrainRate = 1f;

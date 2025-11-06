@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Condition
 {
     protected bool reverseCondition;
-    abstract public bool Evalutate();
+    abstract public bool Evaluate();
 
     public bool CheckForReverseCondition(bool result)
     {

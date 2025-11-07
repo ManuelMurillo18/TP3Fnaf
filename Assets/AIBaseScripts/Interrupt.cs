@@ -34,7 +34,7 @@ public class Interrupt
                 }
             }
 
-            await Task.Delay(1100);
+            await Task.Delay(100);
         }
 
     }

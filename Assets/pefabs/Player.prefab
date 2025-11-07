@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 8434865440480860194}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -884,6 +884,7 @@ MonoBehaviour:
   interactableMask:
     serializedVersion: 2
     m_Bits: 64
+  gravity: -9.81
   flashlightDrainRate: 1
 --- !u!114 &8434865440480860194
 MonoBehaviour:

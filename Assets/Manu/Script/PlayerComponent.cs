@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.Cinemachine;
@@ -218,5 +219,8 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
-
+    internal void JumpScare()
+    {
+        throw new NotImplementedException();
+    }
 }

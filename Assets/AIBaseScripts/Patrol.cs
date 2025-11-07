@@ -24,6 +24,8 @@ public class Patrol : BehaviorTree
         GoToTarget goTo2 = new GoToTarget(agent, targets[1], 2, null, this);
         GoToTarget goTo3 = new GoToTarget(agent, targets[2], 2, null, this);
         GoToTarget goTo4 = new GoToTarget(agent, targets[3], 2, null, this);
+        GoToTarget goTo5 = new GoToTarget(agent, targets[4], 2, null, this);
+        GoToTarget goTo6 = new GoToTarget(agent, targets[5], 2, null, this);
         Wait wait2 = new Wait(2, null, this);
         Wait wait4 = new Wait(4, null, this);
 
@@ -31,12 +33,12 @@ public class Patrol : BehaviorTree
 
 
         //*************************************** Sequences *************************************//
-        Sequence patrolSequence = new Sequence(new Node[] { goTo1, wait2, goTo2, wait2, goTo3, wait2, goTo4, wait2 }, doesntSeePlayer, this);
+        Sequence patrolSequence = new Sequence(new Node[] { goTo1, wait2, goTo2, wait2, goTo3, wait2, goTo4, wait2, goTo5, wait2, goTo6 }, doesntSeePlayer, this);
         //Sequence chaseSequence = new Sequence(new Node[] { followPlayer }, null, this);
         //Sequence followPlayerSequence = new Sequence(new Node[] { followPlayer, wait4 }, seesPlayer, this);
 
         //*************************************** Root Node *************************************//
-        root = new Selector(new Node[] {patrolSequence, followPlayer },null,this );
+        root = new Selector(new Node[] {patrolSequence,followPlayer },null,this );
     }
 
     private void OnDisable()

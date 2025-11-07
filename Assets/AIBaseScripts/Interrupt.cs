@@ -25,26 +25,51 @@ public class Interrupt
         Start();
     }
 
+    //async private void CheckConditions(CancellationToken token)
+    //{
+    //    while (!token.IsCancellationRequested)
+    //    {
+    //        for (int index = 0; index < conditions.Length; ++index)
+    //        {
+    //            if (conditions[index].Evaluate() != conditionsState[index])
+    //            {
+    //                // Empêche l’interruption trop fréquente
+    //                if (Time.time - lastInterruptTime >= cooldown)
+    //                {
+    //                    lastInterruptTime = Time.time;
+    //                    behaviorTree.Interupt();
+    //                }
+
+    //                //Debug.Log("Interrupting Behavior Tree due to condition change.");
+    //                //behaviorTree.Interupt();
+    //                UpdateState();
+    //                break;
+    //            }
+    //        }
+    //        await Task.Delay(100);
+    //    }
+    //}
+
     async private void CheckConditions(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
             for (int index = 0; index < conditions.Length; ++index)
             {
-                if (conditions[index].Evaluate() != conditionsState[index])
+                bool current = conditions[index].Evaluate();
+                // Interrompt uniquement si la condition passe de false à true
+                if (!conditionsState[index] && current)
                 {
-                    // Empêche l’interruption trop fréquente
                     if (Time.time - lastInterruptTime >= cooldown)
                     {
                         lastInterruptTime = Time.time;
                         behaviorTree.Interupt();
                     }
-
-                    //Debug.Log("Interrupting Behavior Tree due to condition change.");
-                    //behaviorTree.Interupt();
                     UpdateState();
                     break;
                 }
+                // Met à jour l'état même si pas d'interruption
+                conditionsState[index] = current;
             }
             await Task.Delay(100);
         }

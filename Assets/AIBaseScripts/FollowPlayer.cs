@@ -54,7 +54,7 @@ public class FollowPlayer : Node
             }
             else
             {
-                // While recovering, do not move
+                // pendant la pause, on arrête le mouvement
                 agent.SetDestination(agent.transform.position);
                 return;
             }

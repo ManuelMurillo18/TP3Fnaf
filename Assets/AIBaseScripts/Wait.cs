@@ -12,6 +12,7 @@ public class Wait : Node
 
     public override void EvaluateAction()
     {
+        Debug.Log("Starting to wait for " + secondsToWait + " seconds.");
         timer = 0;
         base.EvaluateAction();
     }
@@ -21,6 +22,7 @@ public class Wait : Node
         timer += deltaTIme;
         if (timer >= secondsToWait)
         {
+            Debug.Log("Waited for " + secondsToWait + " seconds.");
             FinishAction(true);
         }
     }

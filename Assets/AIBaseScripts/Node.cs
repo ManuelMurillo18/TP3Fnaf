@@ -45,7 +45,7 @@ public abstract class Node
             parent.FinishAction(result);
         else
         {
-            BT.EvaluateTree();
+             BT.EvaluateTree();
         }
     }
     virtual public void Interupt()

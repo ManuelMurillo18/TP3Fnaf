@@ -15,7 +15,7 @@ public class Chase : Node
 
     public override void Tick(float deltaTime)
     {
-        if ((agent.destination - agent.transform.position).magnitude < stopDistance + 1.5f)
+        if ((agent.destination - agent.transform.position).magnitude < stopDistance + 5f)
         {
             agent.SetDestination((agent.transform.position - agent.destination).normalized * stopDistance + agent.destination);
             Debug.Log("Arrived to chase target");

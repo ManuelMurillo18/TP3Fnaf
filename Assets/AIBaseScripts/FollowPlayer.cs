@@ -20,6 +20,7 @@ public class FollowPlayer : Node
         this.target = target;
         this.agent = agent;
         this.stoppingDistance = stoppingDistance;
+        agent.stoppingDistance = stoppingDistance;
         this.staminaDuration = staminaDuration;
         this.staminaRecoverDuration = staminaRecoverDuration;
     }
@@ -60,17 +61,25 @@ public class FollowPlayer : Node
             }
         }
 
-        if ((agent.transform.position - target.position).sqrMagnitude < stoppingDistance * stoppingDistance)
+        Debug.Log(Vector3.Distance(agent.transform.position, target.position));
+        if (Vector3.Distance(agent.transform.position, target.position) <= stoppingDistance)
         {
+            Debug.Log("Arrived to chase target");
             FinishAction(true);
         }
         else
         {
-            if (!agent.SetDestination(target.position))
-            {
-                FinishAction(false);
-            }
+            agent.SetDestination(target.position);
         }
+        //Debug.Log((agent.destination - agent.transform.position).magnitude);
+        //if ((agent.destination - agent.transform.position).magnitude < stoppingDistance + 1.5f)
+        //{
+        //    agent.SetDestination((agent.transform.position - agent.destination).normalized * stoppingDistance + agent.destination);
+        //    Debug.Log("Arrived to chase target");
+        //    FinishAction(true);
+        //}
+        //else
+        //    agent.SetDestination(target.transform.position);
     }
 
     public override void FinishAction(bool result)

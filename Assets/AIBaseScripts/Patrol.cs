@@ -29,7 +29,7 @@ public class Patrol : BehaviorTree
         Wait wait2 = new Wait(2, null, this);
         Wait wait4 = new Wait(4, null, this);
 
-        FollowPlayer followPlayer = new FollowPlayer(player, player.transform, agent, 0.5f, 5, 4, null, this);
+        FollowPlayer followPlayer = new FollowPlayer(player, player.transform, agent, 5.5f, 5, 4, null, this);
 
 
         //*************************************** Sequences *************************************//

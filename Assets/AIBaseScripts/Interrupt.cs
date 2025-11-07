@@ -29,7 +29,8 @@ public class Interrupt
                 {
                     tree.Interupt();
                     UpdateState();
-                    return;
+                    return; //juste pour testé le interrupt une fois par frame mettre le return en commentaire 
+
                 }
             }
 

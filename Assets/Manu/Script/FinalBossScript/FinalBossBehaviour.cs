@@ -21,7 +21,7 @@ public class FinalBossBehaviour : BehaviorTree
         //************************************* Conditions *************************************//
         Condition[] seesPlayer = { new HasVision(agent.transform, playerTarget, 90, false) };
         ////************************************* Interrupt *************************************//
-        interrupt = new Interrupt(this, seesPlayer);
+        interrupt = new Interrupt(this, seesPlayer, 3);
         //interrupt = new Interrupt(this, attackCooldown);
 
         FixedTargetMouvement movementTarget1 = new FixedTargetMouvement(agent, mouvmentTargets[0], 5, null, this);
@@ -33,10 +33,11 @@ public class FinalBossBehaviour : BehaviorTree
         NormalAttack normalAttack = new NormalAttack(playerTarget, releasePoint,projectilePrefab, 40f, 0.5f, 5f, this, null);
 
         Sequence walkingSequence = new Sequence(new Node[] { movementTarget1, movementTarget2, movementTarget3, movementTarget4, movementTarget5 }, null, this);
-        Sequence chaseSequence = new Sequence(new Node[] { chasePlayer, normalAttack}, seesPlayer, this);
+        //Sequence chaseSequence = new Sequence(new Node[] { chasePlayer, normalAttack}, seesPlayer, this);
+        Sequence chaseSequence = new Sequence(new Node[] { chasePlayer }, null, this);
         //Wandering wandering = new Wandering(null, this,agent,roamingRange);
 
-        root = new Selector(new Node[] {chaseSequence,walkingSequence,}, null, this);
+        root = new Selector(new Node[] {walkingSequence, chasePlayer }, null, this);
     }
     private void OnDisable()
     {

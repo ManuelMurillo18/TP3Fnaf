@@ -6,6 +6,7 @@ abstract public class BehaviorTree : MonoBehaviour
     protected Node root;
     public Node activeNode;
 
+
     abstract protected void InitializeTree();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,4 +32,6 @@ abstract public class BehaviorTree : MonoBehaviour
         activeNode.Interupt();
         EvaluateTree();
     }
+
+   
 }

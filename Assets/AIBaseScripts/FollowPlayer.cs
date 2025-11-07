@@ -8,7 +8,7 @@ public class FollowPlayer : Node
     NavMeshAgent agent;
     float stoppingDistance;
 
-    public FollowPlayer(GameObject player, Transform target, NavMeshAgent agent, float stoppingDistance, Condition[] conditions, BehaviorTree BT)
+    public FollowPlayer(GameObject player, Transform target, NavMeshAgent agent, float stoppingDistance, Condition[] conditions, BehaviorTree BT) : base(conditions, BT)
     {
         this.player = player;
         this.target = target;
@@ -20,6 +20,7 @@ public class FollowPlayer : Node
     {
         base.EvaluateAction();
         target = player.transform;
+        agent.SetDestination(target.position);
     }
 
     public override void Tick(float deltaTime)

@@ -20,6 +20,7 @@ public class FinalBossBehaviour : BehaviorTree
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         //************************************* Conditions *************************************//
         Condition[] seesPlayer = { new HasVision(agent.transform, playerTarget, 90, false) };
+        Condition[] doesntSeePlayer = { new HasVision(agent.transform, playerTarget, 90, true) };
         ////************************************* Interrupt *************************************//
         interrupt = new Interrupt(this, seesPlayer);
         //interrupt = new Interrupt(this, attackCooldown);
@@ -29,14 +30,15 @@ public class FinalBossBehaviour : BehaviorTree
         FixedTargetMouvement movementTarget3 = new FixedTargetMouvement(agent, mouvmentTargets[2], 5, null, this);
         FixedTargetMouvement movementTarget4 = new FixedTargetMouvement(agent, mouvmentTargets[3], 5, null, this);
         FixedTargetMouvement movementTarget5 = new FixedTargetMouvement(agent, mouvmentTargets[4], 5, null, this);
-        Chase chasePlayer = new Chase(null, this, agent, playerTarget, 7f);
-        NormalAttack normalAttack = new NormalAttack(playerTarget, releasePoint,projectilePrefab, 40f, 0.5f, 5f, this, null);
+        //Chase chasePlayer = new Chase(null, this, agent, playerTarget, 7f);
+        FollowPlayer followPlayer = new FollowPlayer(playerTarget, transform, agent, 7f, null, this);
+        NormalAttack normalAttack = new NormalAttack(playerTarget, releasePoint,projectilePrefab, 40f, 3f, 5f, this, null);
 
-        Sequence walkingSequence = new Sequence(new Node[] { movementTarget1, movementTarget2, movementTarget3, movementTarget4, movementTarget5 }, null, this);
-        Sequence chaseSequence = new Sequence(new Node[] { chasePlayer, normalAttack}, seesPlayer, this);
+        Sequence walkingSequence = new Sequence(new Node[] { movementTarget1, movementTarget2, movementTarget3, movementTarget4, movementTarget5 }, doesntSeePlayer, this);
+        Sequence chaseSequence = new Sequence(new Node[] { followPlayer, normalAttack}, null, this);
         //Wandering wandering = new Wandering(null, this,agent,roamingRange);
 
-        root = new Selector(new Node[] {chaseSequence,walkingSequence,}, null, this);
+        root = new Selector(new Node[] {walkingSequence,chaseSequence}, null, this);
     }
     private void OnDisable()
     {

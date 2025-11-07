@@ -37,7 +37,7 @@ public class NormalAttack : Node
 
         if (attackTimer >= attackCooldown)
         {
-            FireProjectile();
+           FireProjectile();
             attackTimer = 0f;
         }
 

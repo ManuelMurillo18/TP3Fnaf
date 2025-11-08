@@ -20,6 +20,7 @@ public class GoToTarget : Node
     public override void EvaluateAction()
     {
         base.EvaluateAction();
+        agent.stoppingDistance = 0;
         agent.SetDestination(target.position);
     }
 

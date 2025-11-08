@@ -22,7 +22,6 @@ public class FollowPlayer : Node
         this.agent = agent;
         this.animatronic = animatronic;
         this.stoppingDistance = stoppingDistance;
-        agent.stoppingDistance = stoppingDistance;
         this.staminaDuration = staminaDuration;
         this.staminaRecoverDuration = staminaRecoverDuration;
     }
@@ -33,6 +32,7 @@ public class FollowPlayer : Node
         chasingTime = 0f;
         recoverTime = 0f;
         isRecovering = false;
+        agent.stoppingDistance = stoppingDistance;
 
         target = player.transform;
     }
@@ -55,6 +55,7 @@ public class FollowPlayer : Node
                 isRecovering = false;
                 chasingTime = 0f;
                 recoverTime = 0f;
+                FinishAction(false);
             }
             else
             {

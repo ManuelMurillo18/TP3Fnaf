@@ -112,6 +112,8 @@ public class PlayerComponent : MonoBehaviour
     public void ObjectFound()
     {
         totalObjectToFind--;
+        if (totalObjectToFind == 0)
+            GameManager.Instance.WinGame();
         if (objectLeftToFind_txt != null)
             objectLeftToFind_txt.text = "Objects Left: " + totalObjectToFind;
     }

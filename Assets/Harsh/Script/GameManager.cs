@@ -3,9 +3,9 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class JumpscareManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static JumpscareManager Instance;
+    public static GameManager Instance;
 
     bool isJumpscareActive = false;
     [SerializeField] GameObject jumpscareCamera;
@@ -45,6 +45,16 @@ public class JumpscareManager : MonoBehaviour
 
     }
 
+    public void WinGame()
+    {
+        StartCoroutine(Win());
+    }
+
+    IEnumerator Win()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadSceneAsync("WinScene");
+    }
     IEnumerator GameOver()
     {
         yield return new WaitForSeconds(3f);

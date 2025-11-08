@@ -10,7 +10,7 @@ public class AttackJumpScare : Node
     public override void Tick(float deltaTime)
     {
         Debug.Log("Jumpscare Activated");
-        JumpscareManager.Instance.ActivateJumpscare();
+        GameManager.Instance.ActivateJumpscare();
         FinishAction(true);
     }
 }

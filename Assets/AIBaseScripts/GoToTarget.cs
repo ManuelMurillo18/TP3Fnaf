@@ -6,10 +6,13 @@ public class GoToTarget : Node
     Transform target;
     float stoppingDistance;
     NavMeshAgent agent;
+    PatrolAnimatronicComponent animatronic;
 
-    public GoToTarget(NavMeshAgent agent, Transform target, float stoppingDistance, Condition[] conditions, BehaviorTree BT) : base(conditions, BT)
+
+    public GoToTarget(NavMeshAgent agent,PatrolAnimatronicComponent animatronic , Transform target, float stoppingDistance, Condition[] conditions, BehaviorTree BT) : base(conditions, BT)
     {
         this.agent = agent;
+        this.animatronic = animatronic;
         this.target = target;
         this.stoppingDistance = stoppingDistance;
     }
@@ -22,7 +25,8 @@ public class GoToTarget : Node
 
     public override void Tick(float deltaTime)
     {
-        if((agent.transform.position - target.position).sqrMagnitude < stoppingDistance * stoppingDistance)
+        animatronic.SetCanRun(false);
+        if ((agent.transform.position - target.position).sqrMagnitude < stoppingDistance * stoppingDistance)
         {
             FinishAction(true);
         }

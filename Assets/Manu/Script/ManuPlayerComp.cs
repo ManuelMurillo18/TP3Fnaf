@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ManuPlayerComp : MonoBehaviour
@@ -15,6 +17,8 @@ public class ManuPlayerComp : MonoBehaviour
     [SerializeField] Image batterieImage;
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] CinemachineImpulseSource impulseSource;
+    [SerializeField] Slider playerHealthBar;
     CinemachineCamera cameraFps;
     Light LightComponent;
     CharacterController characterController;
@@ -180,6 +184,42 @@ public class ManuPlayerComp : MonoBehaviour
         }
     }
 
+    public void CameraShake(float duration,float shakeIntensity)
+    {
+        StartCoroutine(ShakeCamera(duration, shakeIntensity));
+    }
+
+    public IEnumerator ShakeCamera(float duration, float shakeIntensity) //Inspo before realising my cinemachine is my biggest opp https://youtu.be/7BVAlYrM2FU?si=dXsll5QX_e7i6dOw new inspo https://youtu.be/CgyLIWyDXqo?si=6kqrSIj3qV1hwvC6
+    {
+        PlayerInput player = GetComponent<PlayerInput>();
+        player.DeactivateInput(); // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.5/manual/PlayerInput.html
+        Debug.Log($"Shake Camera starting");
+        float timerCoroutine = 0f;
+        while (timerCoroutine < duration)
+        {
+            
+            timerCoroutine += Time.deltaTime;
+            impulseSource.GenerateImpulse();
+            yield return null;
+            
+        }
+        player.ActivateInput();
+       
+        
+
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Debug.Log($"You received this number of damage : {damage}");
+        health -= damage;
+        playerHealthBar.value = health / 100f; ;
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+        }
+    
+    }
 
 }
 

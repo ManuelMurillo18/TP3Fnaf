@@ -7,7 +7,7 @@
 //
 //
 
-
+//J'ai pris ceci du unity asset store et sa venait avec le prefab 
 
 
 #pragma warning disable 0168 // variable declared but not used.
@@ -127,6 +127,12 @@ public class ProjectileMoveScript : MonoBehaviour {
                     }
                     else
                         Destroy(hitVFX, ps.main.duration);
+                }
+                if (co.gameObject.CompareTag("Monster"))
+                {
+                    FinalBossBehaviour fb = co.gameObject.GetComponent<FinalBossBehaviour>();
+                    if (fb != null)
+                        fb.TakeDamage(Random.Range(10, 50));
                 }
 
                 StartCoroutine(DestroyParticle(0f));

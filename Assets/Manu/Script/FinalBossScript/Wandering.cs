@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
-
+//Si chase n'est pas une méthode de mouvement 
 public class Wandering : Node
 {
     float roamingRange;

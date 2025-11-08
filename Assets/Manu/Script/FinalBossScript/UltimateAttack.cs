@@ -53,11 +53,10 @@ public class UltimateAttack : Node
         agent.isStopped = true;
         previousBatterieLevel = playerComp.flashlightBattery;
         playerComp.flashlightBattery = 0f;
-        //Our robot starts Dancing
-
+        playerComp.CameraShake(duration,50f);
+        playerComp.TakeDamage(Random.Range(1, 15));
         Debug.Log("JAM");
-        //Set up animation here and call an coroutine to affect the player during a certain amount of time 
-        //Friends will play some music 
+        
     }
 
     public override void Tick(float deltaTime)

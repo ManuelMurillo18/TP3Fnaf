@@ -63,10 +63,7 @@ public class Interrupt
                     if (Time.time - lastInterruptTime >= cooldown)
                     {
                         lastInterruptTime = Time.time;
-                        Debug.Log(
-                           $"<color=#00ff00>[Interrupt]</color> Condition " +
-                           $"<b>{conditions[index].GetType().Name}</b> triggered at {Time.time:F2}s → Restarting BT"
-                       );
+                        ;
                         behaviorTree.Interupt();
                     }
                     UpdateState();

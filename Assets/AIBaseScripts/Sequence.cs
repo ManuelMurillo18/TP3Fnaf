@@ -4,7 +4,7 @@ public class Sequence : Node
 {
     Node[] children;
     int index;
-    public Sequence(Node[] Children, Condition[] conditions, BehaviorTree BT): base(conditions, BT)
+    public Sequence(Node[] Children, Condition[] conditions, BehaviorTree BT) : base(conditions, BT)
     {
         this.children = Children;
         foreach (var item in Children)
@@ -15,9 +15,9 @@ public class Sequence : Node
 
     public override void EvaluateAction()
     {
-        base.EvaluateAction();
+        //base.EvaluateAction();
         index = 0;
-        if (EvalutateConditions())
+        if (EvaluateConditions())
         {
             children[index].EvaluateAction();
         }
@@ -34,7 +34,7 @@ public class Sequence : Node
         {
             base.FinishAction(false);
         }
-        else if(index == children.Length - 1)
+        else if (index == children.Length - 1)
         {
             base.FinishAction(true);
         }

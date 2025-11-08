@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public abstract class Condition
 {
     protected bool reverseCondition;
@@ -7,7 +5,7 @@ public abstract class Condition
 
     public bool CheckForReverseCondition(bool result)
     {
-        if(reverseCondition)
+        if (reverseCondition)
             return !result;
         return result;
     }

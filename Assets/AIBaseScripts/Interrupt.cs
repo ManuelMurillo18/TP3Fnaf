@@ -71,7 +71,7 @@ public class Interrupt
                 // Met à jour l'état même si pas d'interruption
                 conditionsState[index] = current;
             }
-            await Task.Delay(100);
+            await Task.Delay(1000);
         }
     }
 

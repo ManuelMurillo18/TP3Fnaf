@@ -1,66 +1,97 @@
-
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NormalAttack : Node
 {
+    Animator animator;
+    NavMeshAgent agent;
+    Transform self;
     GameObject player;
     Transform projectileReleasePoint;
     GameObject projectilePrefab;
     float projectileSpeed;
-    float attackCooldown;
-    float timer;
-    float attackTimer;
-    float attackDuration;
+    float meleeRange = 5f; // distance threshold
+    Vector3 meleeRangeVector = new Vector3(3f,3f,3f);
+    float meleeDamage = 20f;
+    bool sucess = false;
+    string targetTag;
 
-    public NormalAttack(GameObject player, Transform projectileReleasePoint, GameObject projectilePrefab, float projectileSpeed, float attackCooldown, float attackDuration, BehaviorTree tree, Condition[] conditions) : base(conditions, tree)
+    public NormalAttack( Animator animator,NavMeshAgent agent,Transform self, GameObject player, Transform projectileReleasePoint, GameObject projectilePrefab, float projectileSpeed, float meleeRange, string targetTag, BehaviorTree tree, Condition[] conditions) : base(conditions, tree)
     {
+        this.animator = animator;
+        this.agent = agent;
+        this.self = self;
         this.player = player;
         this.projectileReleasePoint = projectileReleasePoint;
         this.projectilePrefab = projectilePrefab;
         this.projectileSpeed = projectileSpeed;
-        this.attackCooldown = attackCooldown;
-        this.attackDuration = attackDuration;
+        this.meleeRange = meleeRange;
+        this.targetTag = targetTag;
+        
     }
 
     public override void EvaluateAction()
     {
         base.EvaluateAction();
-        timer = 0f;
-        attackTimer = 0f;
-        Debug.Log("Starting normal attack");
-    }
 
-    public override void Tick(float deltaTime)
-    {
-        timer += deltaTime;
-        attackTimer += deltaTime;
+        float distance = Vector3.Distance(self.position, player.transform.position);
 
-        if (attackTimer >= attackCooldown)
+        if (distance <= meleeRange)
+        {
+            DoMeleeAttack();
+        }
+        else
         {
             FireProjectile();
-            attackTimer = 0f;
         }
 
-        if (timer >= attackDuration)
+
+    }
+
+    void DoMeleeAttack()
+    {
+  //      animator.SetTrigger("isAttacking");
+        agent.isStopped = true;
+        Vector3 direction = (player.transform.position - self.position).normalized;
+        Vector3 originOffset = Vector3.up;
+        Debug.Log("Performing melee attack");
+        RaycastHit[] hits = Physics.BoxCastAll(self.position + originOffset, meleeRangeVector / 2, direction);
+        if (hits.Length > 0)
         {
-            Debug.Log("Attack finished");
-            FinishAction(true);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.tag == targetTag)
+                {
+                    sucess = true;
+
+
+                }
+            }
         }
+        agent.isStopped = false;
+        FinishAction(sucess);
+
     }
 
     void FireProjectile()
     {
-        GameObject proj = GameObject.Instantiate(projectilePrefab, projectileReleasePoint.position, Quaternion.identity);
-        Vector3 direction = (player.transform.position - projectileReleasePoint.position).normalized;
-        proj.transform.forward = direction;
-        proj.GetComponent<Rigidbody>().linearVelocity = direction * projectileSpeed;
-        Debug.Log("Fired projectile toward player");
+        Debug.Log("Firing projectile to player.");
+
+        for (int i = 0; i <= 10; i++)
+        {
+            GameObject proj = GameObject.Instantiate(projectilePrefab,projectileReleasePoint.position,Quaternion.identity);
+
+            Vector3 direction = (player.transform.position - projectileReleasePoint.position).normalized;
+            proj.transform.forward = direction;
+
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            rb.linearVelocity = direction * projectileSpeed;
+        }
+        FinishAction(true);
     }
 
     public override void Interupt()
     {
-        timer = 0f;
-        attackTimer = 0f;
         base.Interupt();
     }
 }

@@ -24,7 +24,7 @@ public class ManuPlayerComp : MonoBehaviour
     Vector3 rotationCamera = new Vector3(0, 0, 0);
     private float gravity = -9.81f;
     private bool isFlashlightOn = false;
-    private float flashlightBattery = 100f;
+    public float flashlightBattery = 100f;
     [SerializeField] float flashlightDrainRate = 4f;
     private bool noBatterieBlinking = false;
 

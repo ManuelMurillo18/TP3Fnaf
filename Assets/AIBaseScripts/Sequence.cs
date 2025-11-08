@@ -15,9 +15,9 @@ public class Sequence : Node
 
     public override void EvaluateAction()
     {
-        base.EvaluateAction();
+        //base.EvaluateAction();
         index = 0;
-        if (EvalutateConditions())
+        if (EvaluateConditions())
         {
             children[index].EvaluateAction();
         }

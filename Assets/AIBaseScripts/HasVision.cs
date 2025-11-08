@@ -21,7 +21,7 @@ public class HasVision : Condition
 
         if (angleToTarget > angleView)
         {
-            Debug.Log("Doesn't see player");
+          Debug.Log("Out of angle");
             return CheckForReverseCondition(false);
         }
             
@@ -29,12 +29,12 @@ public class HasVision : Condition
         {
             if (hit.collider.gameObject != target)
             {
-                Debug.Log("Doesn't see player");
+               Debug.Log("Obstructed view");
                 return CheckForReverseCondition(false);
             }
         }
 
-        Debug.Log("Has Vision of " + target.name);
+        Debug.Log("Target in sight");
         return CheckForReverseCondition(true);
     }
 }

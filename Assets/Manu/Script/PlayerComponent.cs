@@ -184,7 +184,6 @@ public class PlayerComponent : MonoBehaviour
         }
         if (context.canceled)
         {
-            SFXManager.Instance.PlaySFX(flashlightSound, transform, 1);
             isFlashlightOn = false;
         }
 

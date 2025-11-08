@@ -52,11 +52,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Win()
     {
+        Cursor.lockState = CursorLockMode.None;
         yield return new WaitForSeconds(3f);
         SceneManager.LoadSceneAsync("WinScene");
     }
     IEnumerator GameOver()
     {
+        Cursor.lockState = CursorLockMode.None;
         yield return new WaitForSeconds(3f);
         SceneManager.LoadSceneAsync("Menu");
     }

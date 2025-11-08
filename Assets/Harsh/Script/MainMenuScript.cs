@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class MainMenuScript : MonoBehaviour
 {
     [SerializeField] string sceneName;
+
     public void StartGame()
     {
         SceneManager.LoadScene(sceneName); 

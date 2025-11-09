@@ -19,7 +19,7 @@ public class AttackCooldownCondition : Condition
         Debug.Log($"Cooldown started at {Time.time}");
     }
 
-    public override bool Evalutate()
+    public override bool Evaluate()
     {
         float currentTime = Time.time;
 

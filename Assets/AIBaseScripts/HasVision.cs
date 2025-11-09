@@ -13,7 +13,7 @@ public class HasVision : Condition
         this.angleView = angleView;
         this.reverseCondition = reverseCondition;
     }
-    public override bool Evalutate()
+    public override bool Evaluate()
     {
         Vector3 directionToTarget = (target.transform.position - self.position).normalized;
 

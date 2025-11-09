@@ -56,7 +56,7 @@ public class Interrupt
         {
             for (int index = 0; index < conditions.Length; ++index)
             {
-                bool current = conditions[index].Evalutate();
+                bool current = conditions[index].Evaluate();
                 // Interrompt uniquement si la condition passe de false à true
                 if (!conditionsState[index] && current)
                 {
@@ -80,7 +80,7 @@ public class Interrupt
     {
         for (int index = 0; index < conditions.Length; ++index)
         {
-            conditionsState[index] = conditions[index].Evalutate();
+            conditionsState[index] = conditions[index].Evaluate();
         }
     }
 

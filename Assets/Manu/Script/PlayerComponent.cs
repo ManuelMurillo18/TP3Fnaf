@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.Cinemachine;
@@ -16,26 +17,34 @@ public class PlayerComponent : MonoBehaviour
     //***************** UI *****************//
     [SerializeField] Sprite[] batterieLevels;
     [SerializeField] Image batterieImage;
-    [SerializeField] TMP_Text promptText;
+    [SerializeField] TMP_Text interact_txt;
+    [SerializeField] TMP_Text objectLeftToFind_txt;
+    [SerializeField] TMP_Text tutorial_txt;
+    int totalObjectToFind;
 
     //***************** Camera - Interaction Ray *****************//
     CinemachineCamera cameraFps;
     [SerializeField] float interactionRayDistance = 3f;
     [SerializeField] LayerMask interactableMask;
 
-    //*****************  *****************//
-    Light LightComponent;
+    //***************** Move *****************//
     CharacterController characterController;
     Vector2 move;
     Vector2 rotate;
     Vector3 velocity;
     Vector3 rotationCamera = new Vector3(0, 0, 0);
-    private float gravity = -9.81f;
+    [SerializeField] float gravity = -9.81f;
+
+    //***************** Flashlight *****************//
+    [SerializeField] AudioClip flashlightSound;
+    Light LightComponent;
     private bool isFlashlightOn = false;
     private float flashlightBattery = 100f;
     [SerializeField] float flashlightDrainRate = 1f;
     private bool noBatterieBlinking = false;
 
+    //***************** Health *****************//
+    public bool isDead = false;
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -44,9 +53,22 @@ public class PlayerComponent : MonoBehaviour
         LightComponent = GetComponentInChildren<Light>();
     }
 
+    void Start()
+    {
+        totalObjectToFind = GameObject.FindGameObjectsWithTag("Plush").Length;
+
+        if (tutorial_txt != null)
+            StartCoroutine(ShowTemporaryMessage("Find all the objects to escape!", 5f));
+
+        if (objectLeftToFind_txt != null)
+            objectLeftToFind_txt.text = "Objects Left: " + totalObjectToFind;
+    }
+
 
     void Update()
     {
+        if (isDead)
+            return;
         CheckBatterieImage();
         UseFlashLightBatterie();
         Mouvement();
@@ -87,6 +109,15 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
+    public void ObjectFound()
+    {
+        totalObjectToFind--;
+        if (totalObjectToFind == 0)
+            GameManager.Instance.WinGame();
+        if (objectLeftToFind_txt != null)
+            objectLeftToFind_txt.text = "Objects Left: " + totalObjectToFind;
+    }
+
     public void Mouvement()
     {
         Vector3 direction = cameraFps.transform.right * move.x + cameraFps.transform.forward * move.y;
@@ -120,7 +151,7 @@ public class PlayerComponent : MonoBehaviour
 
     private void Ray()
     {
-        promptText.text = "";
+        interact_txt.text = "";
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         Debug.DrawRay(ray.origin, ray.direction * interactionRayDistance, Color.red);
 
@@ -129,10 +160,17 @@ public class PlayerComponent : MonoBehaviour
             var interactable = hitInfo.collider.GetComponent<Interactable>();
             if (interactable != null)
             {
-                promptText.text = interactable.GetPromptMessage();
+                interact_txt.text = interactable.GetPromptMessage();
             }
 
         }
+    }
+
+    IEnumerator ShowTemporaryMessage(string message, float delay)
+    {
+        tutorial_txt.text = message;
+        yield return new WaitForSeconds(delay);
+        tutorial_txt.text = "";
     }
 
     public void ActivateFlashLight(InputAction.CallbackContext context)
@@ -140,6 +178,7 @@ public class PlayerComponent : MonoBehaviour
 
         if (context.performed && flashlightBattery > 0f)
         {
+            SFXManager.Instance.PlaySFX(flashlightSound,transform,1);
             isFlashlightOn = true;
 
         }
@@ -218,5 +257,14 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
-
+    public void PlayerDeath()
+    {
+        isDead = true;
+        LightComponent.enabled = false;
+        batterieImage.enabled = false;
+        interact_txt.enabled = false;
+        objectLeftToFind_txt.enabled = false;
+        tutorial_txt.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+    }
 }

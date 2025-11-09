@@ -31,7 +31,7 @@ public abstract class Node
 
         foreach (Condition c in conditions)
         {
-            if (!c.Evalutate())
+            if (!c.Evaluate())
                 return false;
         }
         return true;

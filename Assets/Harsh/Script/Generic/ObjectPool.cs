@@ -16,7 +16,7 @@ public class ObjectPool : MonoBehaviour
         if (objectPoolInstance == null)
         {
             objectPoolInstance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

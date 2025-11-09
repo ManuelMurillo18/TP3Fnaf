@@ -11,6 +11,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Manu/SceneTest/New Scene.unity
     guid: a0356b4a71d8f8a4fab7436f5ce5177b
+    path: Assets/Scenes/HarshScene.unity
+    guid: 63854decd527f764f892173d2492aeec
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 582bc44ecaba0d44e80c2697a10c7d8d
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: 1263b381a33426142bb6b12480746ef9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

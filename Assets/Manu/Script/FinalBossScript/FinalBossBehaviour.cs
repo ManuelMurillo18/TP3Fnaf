@@ -71,7 +71,7 @@ public class FinalBossBehaviour : BehaviorTree
         monsterHealthBar.value = health / initialHealthBarMaxValue;
         if (health <= 0)
         {
-            SceneManager.LoadScene("Win", LoadSceneMode.Single);
+            SceneManager.LoadScene("WinScene", LoadSceneMode.Single);
         }
     
     }

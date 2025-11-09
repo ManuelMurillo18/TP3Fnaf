@@ -3,7 +3,7 @@
 public class AttackCooldownCondition : Condition
 {
     private readonly float cooldownTime;
-    private readonly float triggerDuration = 3f;  
+    private readonly float triggerDuration = 5f;  
     private float nextReadyTime;
     private float activationEndTime;
     private bool inActivationLapse; // Lapse de temps ou on peux active le ultimatate

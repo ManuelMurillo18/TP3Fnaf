@@ -53,8 +53,9 @@ public class UltimateAttack : Node
         agent.isStopped = true;
         previousBatterieLevel = playerComp.flashlightBattery;
         playerComp.flashlightBattery = 0f;
+        GameManagerManu.Instance.PlayEventMusic();
         playerComp.CameraShake(duration,50f);
-        playerComp.TakeDamage(Random.Range(1, 15));
+        playerComp.TakeDamage(5);
         Debug.Log("JAM");
         
     }

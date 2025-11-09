@@ -78,7 +78,7 @@ public class NormalAttack : Node
             ManuPlayerComp securityGuard = player.GetComponent<ManuPlayerComp>();
             if (securityGuard != null)
             {
-                securityGuard.TakeDamage(Random.Range(1, 15));
+                securityGuard.TakeDamage(15);
             }
         }
         agent.isStopped = false;

@@ -10,7 +10,7 @@ public class MonsterBullet : MonoBehaviour
             Debug.Log("Player hit by monster bullet");
             ManuPlayerComp playerComp = other.gameObject.GetComponent<ManuPlayerComp>();
             if (playerComp != null)
-                playerComp.TakeDamage(Random.Range(1, 15));
+                playerComp.TakeDamage(15);
             
            Destroy(this.gameObject);
         }

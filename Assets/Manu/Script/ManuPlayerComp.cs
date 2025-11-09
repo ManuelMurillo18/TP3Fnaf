@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class ManuPlayerComp : MonoBehaviour
 {
+    bool isDead = false;
     [SerializeField] float speed = 5f;
     [SerializeField] float cameraSpeed = 2f;
     [SerializeField] float jumpForce = 5f;
@@ -43,6 +44,8 @@ public class ManuPlayerComp : MonoBehaviour
 
     void Update()
     {
+        if(isDead)
+            return;
         CheckBatterieImage();
         UseFlashLightBatterie();
         Mouvement();
@@ -203,6 +206,7 @@ public class ManuPlayerComp : MonoBehaviour
             yield return null;
             
         }
+        GameManagerManu.Instance.PlayAmbianceMusic();
         player.ActivateInput();
        
         
@@ -216,9 +220,17 @@ public class ManuPlayerComp : MonoBehaviour
         playerHealthBar.value = health / 100f; ;
         if (health <= 0)
         {
-            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+            GameManagerManu.Instance.ActivateJumpscare();
         }
     
+    }
+
+    public void PlayerDeath()
+    {
+        isDead = true;
+        LightComponent.enabled = false;
+        batterieImage.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
     }
 
 }
